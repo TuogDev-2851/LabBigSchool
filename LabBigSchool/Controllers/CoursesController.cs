@@ -29,6 +29,7 @@ namespace LabBigSchool.Controllers
         }
         [Authorize]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(CourseViewModel viewModel)
         {
             if (!ModelState.IsValid)
@@ -49,5 +50,7 @@ namespace LabBigSchool.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+        //aaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        //aaaaa
     }
 }
