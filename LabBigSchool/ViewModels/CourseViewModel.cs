@@ -9,6 +9,7 @@ namespace LabBigSchool.ViewModels
 {
     public class CourseViewModel
     {
+
         [Required]
         public string Place { get; set; }
         [Required]
@@ -29,5 +30,7 @@ namespace LabBigSchool.ViewModels
         {
             return DateTime.Parse(string.Format("{0} {1}", Date, Time));
         }
+
+
     }
 }

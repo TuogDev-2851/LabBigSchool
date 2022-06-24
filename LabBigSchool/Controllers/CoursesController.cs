@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -18,6 +19,10 @@ namespace LabBigSchool.Controllers
         {
             _dbContext = new ApplicationDbContext();
         }
+
+        public IQueryable<Course> UpcommingCourses { get; internal set; }
+        public bool ShowAction { get; internal set; }
+
         [Authorize]
         public ActionResult Create()
         {
@@ -50,7 +55,55 @@ namespace LabBigSchool.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-        //aaaaaaaaaaaaaaaaaaaaaaaaaaaa
-        //aaaaa
+        [Authorize]
+        public ActionResult Attending()
+        {
+            var userId = User.Identity.GetUserId();
+            var courses = _dbContext.Attendances
+                .Where(a => a.AttendeeId == userId)
+                .Select(a => a.Course)
+                .Include(l => l.Lecturer)
+                .Include(l => l.Category)
+                .ToList();
+            var viewModel = new CoursesViewModel
+            {
+                UpcommingCourses = courses,
+                ShowAction = User.Identity.IsAuthenticated
+            };
+            return View(viewModel);
+        }
+
+        [Authorize]
+        public ActionResult AttendingTea()
+        {
+            var userId = User.Identity.GetUserId();
+            var courses = _dbContext.Followings
+                .Where(a => a.FollowerId == userId)
+                .Select(a => a.Follower)
+                .Include(l => l.Followees)
+                .Include(l => l.Followees)
+                .ToList();
+            var viewModel = new CoursesViewModel
+            {
+                Upcommingfl = foll,
+                ShowAction = User.Identity.IsAuthenticated
+            };
+            return View(viewModel);
+        }
+
+
+
+        [Authorize]
+        public ActionResult Mine()
+        {
+            var userId = User.Identity.GetUserId();
+            var courses = _dbContext.Courses
+                .Where(c => c.LecturerId == userId && c.DateTime > DateTime.Now)
+                .Include(l => l.Lecturer)
+                .Include(l => l.Category)
+                .ToList();
+            return View(courses);
+        }
+
     }
 }
