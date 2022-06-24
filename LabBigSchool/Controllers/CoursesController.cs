@@ -74,7 +74,7 @@ namespace LabBigSchool.Controllers
         }
 
         [Authorize]
-        public ActionResult AttendingTea()
+/*        public ActionResult AttendingTea()
         {
             var userId = User.Identity.GetUserId();
             var courses = _dbContext.Followings
@@ -90,7 +90,7 @@ namespace LabBigSchool.Controllers
             };
             return View(viewModel);
         }
-
+*/
 
 
         [Authorize]
